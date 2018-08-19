@@ -1,31 +1,100 @@
 package com.schmoeker;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.udacity.schmoeker.R;
+import com.schmoeker.db.AppDatabase;
+import com.schmoeker.feed.Feed;
+import com.schmoeker.feed.Subscription;
+
+import java.net.URI;
+import java.net.URL;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class EditFeedActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.edit_url)
+    EditText editUrl;
+    @BindView(R.id.edit_title)
+    EditText editTitle;
+    @BindString(R.string.save)
+    String save;
+    @BindView(R.id.save_feed)
+    Button saveButton;
+
+    AppDatabase appDatabase;
+    Mode mode = Mode.ADD;
+    Feed feed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_feed);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        appDatabase = AppDatabase.getInstance(getApplicationContext());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
+//            mTaskId = savedInstanceState.getInt(INSTANCE_TASK_ID, DEFAULT_TASK_ID);
+//        }
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(KEYS.FEED_ID)) {
+            int feedId = intent.getIntExtra(KEYS.FEED_ID, 0);
+            feed = appDatabase.getFeedDao().loadById(feedId);
+            mode = Mode.EDIT;
+            editTitle.setText(feed.getTitle());
+            editUrl.setText(feed.getLink());
+            editUrl.setText(feed.getLink());
+            saveButton.setText(save);
+        }
+    }
+
+    @OnClick(R.id.save_feed)
+    public void saveFeed(){
+        try {
+            String stringUrl = editUrl.getText().toString();
+            String stringTitle = editTitle.getText().toString();
+            if(mode == Mode.ADD) {
+                feed= new Feed();
+                feed.setTitle(stringTitle);
+                feed.setLink(stringUrl);
+                appDatabase.getFeedDao().insertAll(feed);
+            }else{ //Mode.Edit
+                feed.setTitle(stringTitle);
+                feed.setLink(stringUrl);
+                appDatabase.getFeedDao().update(feed);
             }
-        });
+            finish();
+        }catch (Exception e){
+            Log.e("Tag", e.getMessage());
+
+        }
+
+    }
+    enum Mode{
+        EDIT,
+        ADD
     }
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.udacity.schmoeker">
+    package="com.schmoeker">
 
     <application
         android:allowBackup="true"
@@ -25,14 +25,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.schmoeker.FeedManagementActivity"
+            android:parentActivityName=".FeedActivity"
             android:label="@string/title_activity_feed_management"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.schmoeker.EditFeedActivity"
             android:label="@string/title_activity_edit_feed"
+            android:parentActivityName=".FeedManagementActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.schmoeker.SettingsActivity"
+            android:name="com.schmoeker.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

@@ -9,7 +9,7 @@ import android.util.Log;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 
-@Database(entities = {Feed.class, FeedItem.class}, version = 1)
+@Database(entities = {Feed.class, FeedItem.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -29,6 +29,8 @@ public abstract class AppDatabase extends RoomDatabase {
                         context.getApplicationContext(),
                         AppDatabase.class,
                         AppDatabase.DATABASE_NAME)
+                        .allowMainThreadQueries()
+                        .fallbackToDestructiveMigration()
                         .build();
             }
         }
