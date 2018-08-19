@@ -13,7 +13,7 @@ public class FeedManagementViewModel extends ViewModel {
     private LiveData<List<Feed>> feedLiveData;
 
     public FeedManagementViewModel(AppDatabase database) {
-        feedLiveData = database.getFeedDao().getAll();
+        feedLiveData = database.getFeedDao().getLiveDataAll();
     }
 
     public LiveData<List<Feed>> getTask() {

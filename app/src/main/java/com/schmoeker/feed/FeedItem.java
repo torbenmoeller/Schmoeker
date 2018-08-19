@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
         childColumns = "feed_id"))
 public class FeedItem {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     int id;
     //Foreign Key
     int feed_id;
