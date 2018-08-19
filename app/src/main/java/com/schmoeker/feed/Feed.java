@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Feed {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     int id;
     String title;
     String link;
