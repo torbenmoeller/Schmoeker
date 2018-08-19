@@ -15,10 +15,10 @@ import java.util.List;
 @Dao
 public interface FeedDao {
     @Query("SELECT * FROM feed")
-    LiveData<List<Feed>> getAll();
+    LiveData<List<Feed>> getLiveDataAll();
 
     @Query("SELECT * FROM feed")
-    List<Feed> getAllasdf();
+    List<Feed> getAll();
 
     @Query("SELECT * FROM feed WHERE id = :feedId LIMIT 1")
     Feed loadById(int feedId);

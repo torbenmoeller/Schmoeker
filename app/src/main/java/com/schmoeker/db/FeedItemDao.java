@@ -1,5 +1,6 @@
 package com.schmoeker.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -22,11 +23,16 @@ public interface FeedItemDao {
     @Query("SELECT * FROM feeditem WHERE id = :feedId")
     List<FeedItem> loadAllByFeed(int feedId);
 
+    @Query("SELECT * FROM feeditem WHERE feed_id = :feedId")
+    LiveData<List<FeedItem>> loadLiveDataByFeed(int feedId);
+    @Query("SELECT * FROM feeditem")
+    LiveData<List<FeedItem>> loadLiveData();
+
 //    @Query("SELECT * FROM feed WHERE first_name LIKE :first AND last_name LIKE :last LIMIT 1")
 //    Feed findByName(String first, String last);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(FeedItem... feedItems);
+    void insertAll(List<FeedItem> feedItems);
 
     @Delete
     void delete(FeedItem feedItem);

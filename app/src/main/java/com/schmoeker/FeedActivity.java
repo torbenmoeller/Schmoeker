@@ -1,7 +1,11 @@
 package com.schmoeker;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,10 +13,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.rometools.rome.io.FeedException;
+import com.schmoeker.db.AppDatabase;
+import com.schmoeker.feed.Feed;
+import com.schmoeker.feed.FeedItem;
+import com.schmoeker.feed.Subscription;
 import com.schmoeker.settings.SettingsActivity;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +38,9 @@ public class FeedActivity extends AppCompatActivity
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.feed_items_list_view)
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +66,22 @@ public class FeedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        FeedItemsViewModelFactory factory = new FeedItemsViewModelFactory(AppDatabase.getInstance(this),0);
+        final FeedItemsViewModel viewModel = ViewModelProviders.of(this, factory).get(FeedItemsViewModel.class);
+        viewModel.getTask().observe(this, new Observer<List<FeedItem>>() {
+            @Override
+            public void onChanged(@Nullable List<FeedItem> feeds) {
+//                viewModel.getTask().removeObserver(this);
+                populateUI(feeds);
+            }
+        });
+    }
+
+    public void populateUI(@Nullable List<FeedItem> feeds) {
+        FeedItemsAdapter adapter = new FeedItemsAdapter(this, feeds);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -70,10 +105,46 @@ public class FeedActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_sync) {
+            try {
+                List<FeedItem> asdf = AppDatabase.getInstance(this).getFeedItemDao().getAll();
+                sync();
+            } catch (IOException e) {
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
+            } catch (FeedException e) {
+                Log.e(this.getClass().getSimpleName(), e.getMessage());
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sync() throws IOException, FeedException {
+        AsyncTask task = new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    synchronizeFeeds();
+                } catch (IOException e) {
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
+                } catch (FeedException e) {
+                    Log.e(this.getClass().getSimpleName(), e.getMessage());
+                }
+//                populateUI(AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().getAll());
+                return null;
+            }
+        };
+        task.execute();
+    }
+    private void synchronizeFeeds() throws IOException, FeedException {
+        List<Feed> feeds = AppDatabase.getInstance(this).getFeedDao().getAll();
+        for(Feed feed : feeds){
+            Subscription subscription = new Subscription(new URL(feed.getLink()));
+            List<FeedItem> feedItems = subscription.getFeedItems(feed.getId());
+            AppDatabase.getInstance(this).getFeedItemDao().insertAll(feedItems);
+        }
     }
 
     @Override

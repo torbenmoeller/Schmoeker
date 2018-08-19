@@ -44,7 +44,7 @@ public class FeedManagementActivity extends AppCompatActivity {
 //        af.setTitle("qwerqwer");
 //        AppDatabase.getInstance(this).getFeedDao().insertAll(qwer);
 //
-//        List<Feed> wqerwqerqwerwq = AppDatabase.getInstance(this).getFeedDao().getAllasdf();
+//        List<Feed> wqerwqerqwerwq = AppDatabase.getInstance(this).getFeedDao().getAll();
         FeedManagementViewModelFactory factory = new FeedManagementViewModelFactory(AppDatabase.getInstance(this));
         final FeedManagementViewModel viewModel = ViewModelProviders.of(this, factory).get(FeedManagementViewModel.class);
         viewModel.getTask().observe(this, new Observer<List<Feed>>() {
