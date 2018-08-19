@@ -56,11 +56,6 @@ public class FeedManagementActivity extends AppCompatActivity {
         });
     }
 
-    private void initViews() {
-        setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
 
 
     public void populateUI(@Nullable List<Feed> feeds) {
@@ -87,6 +82,12 @@ public class FeedManagementActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initViews() {
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 }

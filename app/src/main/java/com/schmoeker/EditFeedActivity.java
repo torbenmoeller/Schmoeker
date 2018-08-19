@@ -49,9 +49,8 @@ public class EditFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_feed);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        initViews();
+
         appDatabase = AppDatabase.getInstance(getApplicationContext());
 
 //        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
@@ -95,6 +94,11 @@ public class EditFeedActivity extends AppCompatActivity {
     enum Mode{
         EDIT,
         ADD
+    }
+    private void initViews() {
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 }
