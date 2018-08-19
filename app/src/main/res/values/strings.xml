@@ -24,6 +24,9 @@
     <string name="save">Save</string>
     <string name="edit_feed">Edit</string>
     <string name="delete_feed">Delete</string>
+    <string name="sync">Synchronize</string>
+    <string name="asdf">asdf</string>
+    <string name="qwer">qwer</string>
 
 
 </resources>

@@ -21,6 +21,7 @@
         </activity>
         <activity
             android:name=".ArticleActivity"
+            android:parentActivityName=".FeedActivity"
             android:label="@string/title_activity_article"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -30,13 +31,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.schmoeker.EditFeedActivity"
-            android:label="@string/title_activity_edit_feed"
             android:parentActivityName=".FeedManagementActivity"
+            android:label="@string/title_activity_edit_feed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.schmoeker.settings.SettingsActivity"
+            android:parentActivityName=".FeedActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
