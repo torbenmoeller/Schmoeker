@@ -50,7 +50,7 @@ public class ArticleActivity extends AppCompatActivity {
             int feedItemId = intent.getIntExtra(KEYS.FEED_ITEM_ID, 0);
             feedItem = appDatabase.getFeedItemDao().loadById(feedItemId);
             articleHead.setText(feedItem.getTitle());
-            articleDescription.loadData(feedItem.getDescription(), "text/html", "base64");
+            articleDescription.loadData("<html><body>"+feedItem.getDescription()+"</body></html>", "text/html", "UTF-8");
         }
     }
 
