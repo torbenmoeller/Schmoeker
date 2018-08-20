@@ -18,13 +18,14 @@ public interface FeedItemDao {
     List<FeedItem> getAll();
 
     @Query("SELECT * FROM feeditem WHERE id = :feedItemId LIMIT 1")
-    List<FeedItem> loadAllByIds(int feedItemId);
+    FeedItem loadById(int feedItemId);
 
     @Query("SELECT * FROM feeditem WHERE id = :feedId")
     List<FeedItem> loadAllByFeed(int feedId);
 
     @Query("SELECT * FROM feeditem WHERE feed_id = :feedId")
     LiveData<List<FeedItem>> loadLiveDataByFeed(int feedId);
+
     @Query("SELECT * FROM feeditem")
     LiveData<List<FeedItem>> loadLiveData();
 
