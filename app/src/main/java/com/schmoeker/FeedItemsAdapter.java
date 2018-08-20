@@ -75,14 +75,14 @@ public class FeedItemsAdapter extends BaseAdapter {
 //        textViewItemDescription.setText(currentItem.getTitle());
 //
 //        Button buttonEditFeed = (Button) convertView.findViewById(R.id.edit_feed);
-//        buttonEditFeed.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, EditFeedActivity.class);
-//                intent.putExtra(KEYS.FEED_ID, currentItem.getId());
-//                context.startActivity(intent);
-//            }
-//        });
+        textViewItemName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ArticleActivity.class);
+                intent.putExtra(KEYS.FEED_ITEM_ID, currentItem.getId());
+                context.startActivity(intent);
+            }
+        });
 //
 //        Button buttonDeleteFeed = (Button) convertView.findViewById(R.id.delete_feed);
 //        buttonDeleteFeed.setOnClickListener(new View.OnClickListener() {

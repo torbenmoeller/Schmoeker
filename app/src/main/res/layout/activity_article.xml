@@ -20,4 +20,25 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <TextView
+            android:id="@+id/article_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Healine"/>
+        <WebView
+            android:id="@+id/article_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/article_open_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button"/>
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
