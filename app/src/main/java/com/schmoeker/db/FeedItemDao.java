@@ -20,20 +20,20 @@ public interface FeedItemDao {
     @Query("SELECT * FROM feeditem WHERE id = :feedItemId LIMIT 1")
     FeedItem loadById(int feedItemId);
 
-    @Query("SELECT * FROM feeditem WHERE id = :feedId")
-    List<FeedItem> loadAllByFeed(int feedId);
-
-    @Query("SELECT * FROM feeditem WHERE feed_id = :feedId")
-    LiveData<List<FeedItem>> loadLiveDataByFeed(int feedId);
-
     @Query("SELECT * FROM feeditem")
     LiveData<List<FeedItem>> loadLiveData();
 
-//    @Query("SELECT * FROM feed WHERE first_name LIKE :first AND last_name LIKE :last LIMIT 1")
-//    Feed findByName(String first, String last);
+    @Query("SELECT * FROM feeditem WHERE read = :read")
+    LiveData<List<FeedItem>> loadLiveData(boolean read);
+
+    @Query("SELECT * FROM feeditem WHERE feed_id = :feedId")
+    LiveData<List<FeedItem>> loadLiveData(int feedId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<FeedItem> feedItems);
+
+    @Query("UPDATE feeditem SET read = 'true' WHERE id =:feedItemId")
+    void markAsRead(int feedItemId);
 
     @Delete
     void delete(FeedItem feedItem);

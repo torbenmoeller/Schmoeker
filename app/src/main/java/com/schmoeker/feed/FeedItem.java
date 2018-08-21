@@ -2,11 +2,17 @@ package com.schmoeker.feed;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Feed.class,
+@Entity(foreignKeys = @ForeignKey(
+        entity = Feed.class,
         parentColumns = "id",
-        childColumns = "feed_id"))
+        childColumns = "feed_id"),
+        indices = {@Index(
+                value = {"link"},
+                unique = true)}
+        )
 public class FeedItem {
 
     @PrimaryKey(autoGenerate = true)
@@ -19,6 +25,7 @@ public class FeedItem {
     String link;
     String title;
     String description;
+    boolean read;
 
     public int getId() {
         return id;
@@ -84,5 +91,11 @@ public class FeedItem {
         this.description = description;
     }
 
+    public boolean isRead() {
+        return read;
+    }
 
+    public void setRead(boolean read) {
+        this.read = read;
+    }
 }

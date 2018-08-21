@@ -52,6 +52,12 @@ public class ArticleActivity extends AppCompatActivity {
             articleHead.setText(feedItem.getTitle());
             articleDescription.loadData("<html><body>"+feedItem.getDescription()+"</body></html>", "text/html", "UTF-8");
         }
+
+        markArticleAsRead();
+    }
+
+    private void markArticleAsRead() {
+        AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().markAsRead(feedItem.getId());
     }
 
     @OnClick(R.id.article_open_link)

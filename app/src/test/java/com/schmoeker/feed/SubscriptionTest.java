@@ -36,8 +36,16 @@ public class SubscriptionTest {
     }
 
     @Test
-    public void readRealFeed() throws IOException, FeedException {
+    public void readRealZeitFeed() throws IOException, FeedException {
         URL url = new URL("http://newsfeed.zeit.de/index");
+        Subscription subscription = new Subscription(url);
+        Feed feed = subscription.getFeed();
+        assertEquals("ZEIT ONLINE | Nachrichten, Hintergründe und Debatten", feed.getTitle());
+    }
+
+    @Test
+    public void readRealCBFeed() throws IOException, FeedException {
+        URL url = new URL("https://www.computerbase.de/rss/artikel.xml");
         Subscription subscription = new Subscription(url);
         Feed feed = subscription.getFeed();
         assertEquals("ZEIT ONLINE | Nachrichten, Hintergründe und Debatten", feed.getTitle());

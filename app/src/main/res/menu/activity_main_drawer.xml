@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:orderInCategory="100">
         <item
             android:id="@+id/nav_all_feeds"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/all_feeds" />
+            android:title="@string/all_feeds"
+            android:orderInCategory="111"    />
         <item
             android:id="@+id/nav_all_unread"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/all_unread" />
+            android:title="@string/all_unread"
+            android:orderInCategory="112"/>
     </group>
 
-    <group android:title="@string/feeds" android:checkableBehavior="single">
-        <menu
-            android:id="@+id/menu_feeds">
+    <group android:id="@+id/menu_feeds" android:title="@string/feeds" android:checkableBehavior="single" android:orderInCategory="200">
             <!--<item-->
                 <!--android:id="@+id/nav_share"-->
                 <!--android:icon="@drawable/ic_menu_share"-->
@@ -25,20 +25,19 @@
                 <!--android:id="@+id/nav_send"-->
                 <!--android:icon="@drawable/ic_menu_send"-->
                 <!--android:title="Send" />-->
-        </menu>
     </group>
 
-    <group android:checkableBehavior="single">
-        <menu>
+    <group android:checkableBehavior="single" android:orderInCategory="300">
             <item
                 android:id="@+id/nav_manage_feeds"
                 android:icon="@drawable/ic_menu_share"
-                android:title="@string/manage_feeds" />
+                android:title="@string/manage_feeds"
+                android:orderInCategory="311"/>
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="@string/settings" />
-        </menu>
+                android:title="@string/settings"
+                android:orderInCategory="312"/>
     </group>
 
 </menu>
