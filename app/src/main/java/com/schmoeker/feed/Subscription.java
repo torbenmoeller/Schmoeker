@@ -45,6 +45,7 @@ public class Subscription {
             feedItem.setLink(entry.getLink() != null ? entry.getLink() : "");
             feedItem.setTitle(entry.getTitle() != null ? entry.getTitle() : "");
             feedItem.setDescription(entry.getDescription() != null ? entry.getDescription().getValue() : "");
+            feedItem.setRead(false);
             feedItemList.add(feedItem);
         }
         return feedItemList;

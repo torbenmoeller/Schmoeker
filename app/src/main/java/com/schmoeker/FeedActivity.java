@@ -22,6 +22,7 @@ import com.rometools.rome.io.FeedException;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
+import com.schmoeker.feed.FeedState;
 import com.schmoeker.feed.Subscription;
 import com.schmoeker.settings.SettingsActivity;
 
@@ -38,9 +39,16 @@ public class FeedActivity extends AppCompatActivity
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.feed_items_list_view)
     ListView listView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    List<Feed> feeds;
+    FeedState feedState = FeedState.ALL;
+    int feedId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,26 +57,25 @@ public class FeedActivity extends AppCompatActivity
         ButterKnife.bind(this);
         initViews();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        Intent intent = getIntent();
+        if(intent != null) {
+            if (intent.hasExtra(KEYS.FEED_STATE)) {
+                feedState = (FeedState) intent.getSerializableExtra(KEYS.FEED_STATE);
+            }
+            if (intent.hasExtra(KEYS.FEED_ID)) {
+                feedId = intent.getIntExtra(KEYS.FEED_ID, 0);
+            }
+        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        updateNavigation();
 
-
-        FeedItemsViewModelFactory factory = new FeedItemsViewModelFactory(AppDatabase.getInstance(this),0);
+        FeedItemsViewModelFactory factory = new FeedItemsViewModelFactory(AppDatabase.getInstance(this),feedState, feedId);
         final FeedItemsViewModel viewModel = ViewModelProviders.of(this, factory).get(FeedItemsViewModel.class);
         viewModel.getTask().observe(this, new Observer<List<FeedItem>>() {
             @Override
@@ -79,6 +86,23 @@ public class FeedActivity extends AppCompatActivity
         });
     }
 
+    private void updateNavigation(){
+        final AsyncTask navigationUpdateTask = new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                feeds = AppDatabase.getInstance(getApplicationContext()).getFeedDao().getAll();
+                for (int i = 0; i < feeds.size(); i++){
+                    Feed feed = feeds.get(i);
+                    navigationView.getMenu().add(R.id.menu_feeds, feed.getId(), 215 + i, feed.getTitle());
+                }
+                return null;
+            }
+        };
+        navigationUpdateTask.execute();
+    }
+
     public void populateUI(@Nullable List<FeedItem> feeds) {
         FeedItemsAdapter adapter = new FeedItemsAdapter(this, feeds);
         listView.setAdapter(adapter);
@@ -86,7 +110,6 @@ public class FeedActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -151,12 +174,15 @@ public class FeedActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String itemTitle = item.getTitle().toString();
 
         if (id == R.id.nav_all_feeds) {
             Intent intent = new Intent(FeedActivity.this, FeedActivity.class);
+            intent.putExtra(KEYS.FEED_STATE, FeedState.ALL);
             startActivity(intent);
         } else if (id == R.id.nav_all_unread) {
             Intent intent = new Intent(FeedActivity.this, FeedActivity.class);
+            intent.putExtra(KEYS.FEED_STATE, FeedState.UNREAD);
             startActivity(intent);
         } else if (id == R.id.nav_manage_feeds) {
             Intent intent = new Intent(FeedActivity.this, FeedManagementActivity.class);
@@ -165,8 +191,14 @@ public class FeedActivity extends AppCompatActivity
             Intent intent = new Intent(FeedActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        for (Feed feed: feeds){
+            if(itemTitle.equals(feed.getTitle())){
+                Intent intent = new Intent(FeedActivity.this, FeedActivity.class);
+                intent.putExtra(KEYS.FEED_STATE, FeedState.FEED);
+                intent.putExtra(KEYS.FEED_ID, feed.getId());
+                startActivity(intent);
+            }
+        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
