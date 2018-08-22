@@ -20,4 +20,24 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/edit_feed_margin"
+        android:columnCount="2"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <TextView
+            android:text="@string/notifications_on" />
+        <Switch
+            android:id="@+id/simpleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/update_interval" />
+        <Spinner
+            android:id="@+id/interval_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </GridLayout>
+
 </android.support.design.widget.CoordinatorLayout>

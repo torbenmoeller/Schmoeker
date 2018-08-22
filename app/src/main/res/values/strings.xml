@@ -16,6 +16,7 @@
     <string name="all_unread">All Unread</string>
     <string name="url">URL:</string>
     <string name="title">Title:</string>
+    <string name="update_interval">Update Interval:</string>
     <string name="feeds">Feeds</string>
     <string name="manage_feeds">Manage Feeds</string>
     <string name="settings">Settings</string>
@@ -27,6 +28,23 @@
     <string name="sync">Synchronize</string>
     <string name="asdf">asdf</string>
     <string name="qwer">qwer</string>
+    <string name="channel_name">Schmoeker_channel</string>
+    <string name="channel_description">Schmoeker_channel_description</string>
+    <string name="notifications_on">Receive Notifications?</string>
+
+
+    <string name="every_15_minutes">Every 15 minutes</string>
+    <string name="every_1_hour">Every 1 hour</string>
+    <string name="every_2_hour">Every 2 hours</string>
+    <string name="every_4_hour">Every 4 hours</string>
+    <string name="daily">Daily</string>
+    <string-array name="interval_array">
+        <item>@string/every_15_minutes</item>
+        <item>@string/every_1_hour</item>
+        <item>@string/every_2_hour</item>
+        <item>@string/every_4_hour</item>
+        <item>@string/daily</item>
+    </string-array>
 
 
 </resources>

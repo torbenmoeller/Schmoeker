@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.schmoeker">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -39,6 +40,33 @@
             android:parentActivityName=".FeedActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!--<receiver android:name="com.schmoeker.BootUpReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--<service-->
+            <!--android:name="com.schmoeker.YourJobService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+        <service
+            android:exported="false"
+            android:name=".MyJobService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.schmoeker.SyncService"
+            android:enabled="true"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

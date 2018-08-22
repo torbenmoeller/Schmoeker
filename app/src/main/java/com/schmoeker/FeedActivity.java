@@ -1,9 +1,12 @@
 package com.schmoeker;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -13,22 +16,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.rometools.rome.io.FeedException;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 import com.schmoeker.feed.FeedState;
-import com.schmoeker.feed.Subscription;
 import com.schmoeker.settings.SettingsActivity;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,6 +33,7 @@ import butterknife.ButterKnife;
 
 public class FeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -66,6 +64,8 @@ public class FeedActivity extends AppCompatActivity
                 feedId = intent.getIntExtra(KEYS.FEED_ID, 0);
             }
         }
+        createNotificationChannel();
+        SchedulerUtil.scheduleChargingReminder(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -85,6 +85,23 @@ public class FeedActivity extends AppCompatActivity
             }
         });
     }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(KEYS.CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 
     private void updateNavigation(){
         final AsyncTask navigationUpdateTask = new AsyncTask() {
@@ -128,47 +145,13 @@ public class FeedActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_sync) {
-            try {
-                List<FeedItem> asdf = AppDatabase.getInstance(this).getFeedItemDao().getAll();
-                sync();
-            } catch (IOException e) {
-                Log.e(this.getClass().getSimpleName(), e.getMessage());
-            } catch (FeedException e) {
-                Log.e(this.getClass().getSimpleName(), e.getMessage());
-            }
+            Intent startServiceIntent = new Intent(getApplicationContext(), SyncService.class);
+            getApplicationContext().startService(startServiceIntent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void sync() throws IOException, FeedException {
-        AsyncTask task = new AsyncTask() {
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-
-                try {
-                    synchronizeFeeds();
-                } catch (IOException e) {
-                    Log.e(this.getClass().getSimpleName(), e.getMessage());
-                } catch (FeedException e) {
-                    Log.e(this.getClass().getSimpleName(), e.getMessage());
-                }
-//                populateUI(AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().getAll());
-                return null;
-            }
-        };
-        task.execute();
-    }
-    private void synchronizeFeeds() throws IOException, FeedException {
-        List<Feed> feeds = AppDatabase.getInstance(this).getFeedDao().getAll();
-        for(Feed feed : feeds){
-            Subscription subscription = new Subscription(new URL(feed.getLink()));
-            List<FeedItem> feedItems = subscription.getFeedItems(feed.getId());
-            AppDatabase.getInstance(this).getFeedItemDao().insertAll(feedItems);
-        }
-    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
