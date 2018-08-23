@@ -1,30 +1,22 @@
 package com.schmoeker;
 
-import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.rometools.rome.io.FeedException;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 import com.schmoeker.feed.Subscription;
-import com.schmoeker.settings.SettingsActivity;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -95,26 +87,32 @@ public class SyncService extends IntentService {
 
 
     private void createNewFeedNotification(Feed feed, FeedItem feedItem){
-        Intent intent = new Intent(this, ArticleActivity.class);
-        intent.putExtra(KEYS.FEED_ITEM_ID, feedItem.getId());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        String prefName = getApplicationContext().getPackageName() + "_preferences";
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(prefName, android.content.Context.MODE_PRIVATE);
+        if(preferences.getBoolean("notifications_on", true)) {
+            Intent intent = new Intent(this, ArticleActivity.class);
+            intent.putExtra(KEYS.FEED_ITEM_ID, feedItem.getId());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, KEYS.CHANNEL_ID)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark) //ToDo
-                .setContentTitle(feed.getTitle())
-                .setContentText(feedItem.getTitle())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, KEYS.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark) //ToDo
+                    .setContentTitle(feed.getTitle())
+                    .setContentText(feedItem.getTitle())
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(feedItem.getId(), mBuilder.build());
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(feedItem.getId(), mBuilder.build());
+        }
     }
 
     private void createIntent(){
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(this, SettingsActivity.class);
+//        intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
+//        intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -136,6 +134,8 @@ public class SyncService extends IntentService {
 
     private void notifySynchronization(){
         Intent intent = new Intent(this, SettingsActivity.class);
+//        intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
+//        intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, KEYS.CHANNEL_ID)

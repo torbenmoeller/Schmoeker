@@ -16,6 +16,7 @@
 package com.schmoeker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.firebase.jobdispatcher.Constraint;
@@ -37,11 +38,14 @@ public class SchedulerUtil {
         if (sInitialized) {
             return;
         }
-        int defaultTime = (int)TimeUnit.MINUTES.toSeconds(15);
-        reschedule(context, defaultTime);
+        String prefName = context.getPackageName() + "_preferences";
+        SharedPreferences preferences = context.getSharedPreferences(prefName, android.content.Context.MODE_PRIVATE);
+        String pref = preferences.getString("sync_interval", "15");
+        reschedule(context, Integer.valueOf(pref));
     }
 
     synchronized public static void reschedule(@NonNull final Context context, int time){
+        int interval = (int)TimeUnit.MINUTES.toSeconds(time);
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
         Job constraintReminderJob = dispatcher.newJobBuilder()
@@ -51,11 +55,8 @@ public class SchedulerUtil {
                 .setLifetime(Lifetime.FOREVER)
                 .setRecurring(true)
                 .setTrigger(Trigger.executionWindow(
-                        time,
-                        2 * time))
-//                .setTrigger(Trigger.executionWindow(
-//                        REMINDER_INTERVAL_SECONDS,
-//                        REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
+                        interval,
+                        2 * interval))
                 .setReplaceCurrent(true)
                 .build();
         dispatcher.schedule(constraintReminderJob);
