@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"  >
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="asdf"
+        android:title="asdf"/>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications_on"
+        android:title="@string/notifications_on"/>
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/interval_array_titles"
+        android:entryValues="@array/interval_array_values"
+        android:key="sync_interval"
+        android:summary="%s"
+        android:title="@string/update_interval" />
+
+
+    <!--android:dependency="notifications_new_message"-->
+
+</PreferenceScreen>

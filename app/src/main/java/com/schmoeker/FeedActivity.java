@@ -24,7 +24,6 @@ import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 import com.schmoeker.feed.FeedState;
-import com.schmoeker.settings.SettingsActivity;
 
 import java.util.List;
 
@@ -172,6 +171,8 @@ public class FeedActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(FeedActivity.this, SettingsActivity.class);
+//            intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
+//            intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
             startActivity(intent);
         }
         for (Feed feed: feeds){
