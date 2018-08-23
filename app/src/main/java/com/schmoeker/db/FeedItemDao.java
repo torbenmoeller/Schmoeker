@@ -29,8 +29,8 @@ public interface FeedItemDao {
     @Query("SELECT * FROM feeditem WHERE feed_id = :feedId")
     LiveData<List<FeedItem>> loadLiveData(int feedId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<FeedItem> feedItems);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long[] insertAll(List<FeedItem> feedItems);
 
     @Query("UPDATE feeditem SET read = 'true' WHERE id =:feedItemId")
     void markAsRead(int feedItemId);

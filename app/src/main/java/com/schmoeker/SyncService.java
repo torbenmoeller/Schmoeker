@@ -23,6 +23,8 @@ import com.schmoeker.settings.SettingsActivity;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -53,7 +55,7 @@ public class SyncService extends IntentService {
 
 
     private void sync(){
-        notifySynchronization();
+//        notifySynchronization();
         AsyncTask task = new AsyncTask() {
 
             @Override
@@ -61,7 +63,7 @@ public class SyncService extends IntentService {
 
                 try {
                     synchronizeFeeds();
-                    createIntent();
+//                    createIntent();
                 } catch (IOException e) {
                     Log.e(this.getClass().getSimpleName(), e.getMessage());
                 } catch (FeedException e) {
@@ -80,8 +82,34 @@ public class SyncService extends IntentService {
         for(Feed feed : feeds){
             Subscription subscription = new Subscription(new URL(feed.getLink()));
             List<FeedItem> feedItems = subscription.getFeedItems(feed.getId());
-            AppDatabase.getInstance(this).getFeedItemDao().insertAll(feedItems);
+            long[] writtenIds = AppDatabase.getInstance(this).getFeedItemDao().insertAll(feedItems);
+            for(int i = 0; i < writtenIds.length; i++){
+                if(writtenIds[i] > 0){
+                    FeedItem written = feedItems.get(i);
+                    written.setId((int)writtenIds[i]);
+                    createNewFeedNotification(feed, written);
+                }
+            }
         }
+    }
+
+
+    private void createNewFeedNotification(Feed feed, FeedItem feedItem){
+        Intent intent = new Intent(this, ArticleActivity.class);
+        intent.putExtra(KEYS.FEED_ITEM_ID, feedItem.getId());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, KEYS.CHANNEL_ID)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark) //ToDo
+                .setContentTitle(feed.getTitle())
+                .setContentText(feedItem.getTitle())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(feedItem.getId(), mBuilder.build());
     }
 
     private void createIntent(){
