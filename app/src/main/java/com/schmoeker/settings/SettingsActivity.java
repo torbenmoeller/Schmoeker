@@ -29,9 +29,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
-//                String val = listPreference.getEntries()[index].toString();
+                String vals = listPreference.getEntries()[index].toString();
                 Integer val = Integer.valueOf((String) value);
-                preference.setSummary(index >= 0 ? val.toString() : null);
+                preference.setSummary(index >= 0 ? vals.toString() : null);
                 SchedulerUtil.reschedule(preference.getContext(), val);
 
             }  else if(preference instanceof SwitchPreference) {
