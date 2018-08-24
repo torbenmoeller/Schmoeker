@@ -67,6 +67,25 @@
             android:name=".SyncService"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".widget.AppWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".widget.SchmoekerAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/schmoeker_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".UpdateWidgetService"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>
