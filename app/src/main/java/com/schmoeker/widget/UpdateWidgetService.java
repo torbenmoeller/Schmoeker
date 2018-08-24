@@ -1,7 +1,9 @@
 package com.schmoeker.widget;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.FeedItem;
@@ -20,8 +22,16 @@ public class UpdateWidgetService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        List<FeedItem> feedItemList = AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().getAll();
-        AppWidgetService.updateWidget(this, feedItemList);
+        final Context context = this;
+        AsyncTask task =new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                List<FeedItem> feedItemList = AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().getAll();
+                AppWidgetService.updateWidget(context, feedItemList);
+                return null;
+            }
+        };
+        task.execute();
     }
 
 

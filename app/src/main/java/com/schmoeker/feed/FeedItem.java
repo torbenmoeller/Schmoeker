@@ -15,7 +15,8 @@ import java.util.List;
 @Entity(foreignKeys = @ForeignKey(
         entity = Feed.class,
         parentColumns = "id",
-        childColumns = "feed_id"),
+        childColumns = "feed_id",
+        onDelete = ForeignKey.CASCADE),
         indices = {@Index(
                 value = {"link"},
                 unique = true)}
