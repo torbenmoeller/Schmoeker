@@ -42,7 +42,7 @@ dependencies {
     //    implementation 'com.rometools:rome-modules:1.11.0'
     //    implementation 'com.rometools:rome-utils:1.11.0'
     implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.slf4j:slf4j-simple:1.7.5'
+    implementation 'org.slf4j:slf4j-android:1.7.25'
 
     //Room
     def room_version = "1.1.1"
