@@ -21,13 +21,17 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.schmoeker.analytics.AnalyticsUtil;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 import com.schmoeker.feed.FeedState;
+import com.schmoeker.management.FeedManagementActivity;
+import com.schmoeker.settings.SettingsActivity;
+import com.schmoeker.sync.SchedulerUtil;
+import com.schmoeker.sync.SyncService;
 
 import java.util.List;
 
@@ -93,23 +97,20 @@ public class FeedActivity extends AppCompatActivity
         viewModel.getTask().observe(this, new Observer<List<FeedItem>>() {
             @Override
             public void onChanged(@Nullable List<FeedItem> feeds) {
-//                viewModel.getTask().removeObserver(this);
                 populateUI(feeds);
             }
         });
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(KEYS.CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -149,7 +150,6 @@ public class FeedActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -168,7 +168,6 @@ public class FeedActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         String itemTitle = item.getTitle().toString();
 
@@ -185,8 +184,6 @@ public class FeedActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(FeedActivity.this, SettingsActivity.class);
-//            intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-//            intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
             startActivity(intent);
         }
         for (Feed feed: feeds){

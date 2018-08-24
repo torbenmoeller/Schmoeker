@@ -27,7 +27,7 @@ public class FeedItem {
     //Foreign Key
     int feed_id;
     String uri;
-    String date;
+    long timestamp;
     String authors;
     String link;
     String title;
@@ -56,14 +56,6 @@ public class FeedItem {
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getAuthors() {
@@ -104,6 +96,14 @@ public class FeedItem {
 
     public void setRead(boolean read) {
         this.read = read;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public static String toJson(List<FeedItem> feedItemList) {

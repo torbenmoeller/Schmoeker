@@ -1,10 +1,8 @@
-package com.schmoeker;
+package com.schmoeker.management;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -14,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.schmoeker.EditFeedActivity;
+import com.schmoeker.R;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 
@@ -35,23 +35,12 @@ public class FeedManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed_management);
         ButterKnife.bind(this);
         initViews();
-//        Feed af = new Feed();
-//        af.setTitle("astest");
-//        AppDatabase.getInstance(this).getFeedDao().insertAll(af);
-//        Feed asdf = new Feed();
-//        af.setTitle("asdfasfd");
-//        AppDatabase.getInstance(this).getFeedDao().insertAll(asdf);
-//        Feed qwer = new Feed();
-//        af.setTitle("qwerqwer");
-//        AppDatabase.getInstance(this).getFeedDao().insertAll(qwer);
-//
-//        List<Feed> wqerwqerqwerwq = AppDatabase.getInstance(this).getFeedDao().getAll();
+
         FeedManagementViewModelFactory factory = new FeedManagementViewModelFactory(AppDatabase.getInstance(this));
         final FeedManagementViewModel viewModel = ViewModelProviders.of(this, factory).get(FeedManagementViewModel.class);
         viewModel.getTask().observe(this, new Observer<List<Feed>>() {
             @Override
             public void onChanged(@Nullable List<Feed> feeds) {
-//                viewModel.getTask().removeObserver(this);
                 populateUI(feeds);
             }
         });
@@ -78,7 +67,6 @@ public class FeedManagementActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.add_feed) {
             Intent intent = new Intent(FeedManagementActivity.this, EditFeedActivity.class);
-//            intent.putExtra(AddTaskActivity.EXTRA_TASK_ID, itemId);
             startActivity(intent);
             return true;
         }

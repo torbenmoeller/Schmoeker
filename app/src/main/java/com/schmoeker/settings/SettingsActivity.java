@@ -1,4 +1,4 @@
-package com.schmoeker;
+package com.schmoeker.settings;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -13,6 +13,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+
+import com.schmoeker.AppCompatPreferenceActivity;
+import com.schmoeker.R;
+import com.schmoeker.sync.SchedulerUtil;
+import com.schmoeker.analytics.AnalyticsUtil;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
@@ -32,9 +37,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }  else if(preference instanceof SwitchPreference) {
                 SwitchPreference switchPreference = (SwitchPreference) preference;
                 AnalyticsUtil.logDisableNotifications(preference.getContext());
-            }else            {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
+            } else {
                 preference.setSummary(stringValue);
             }
             return true;
@@ -71,8 +74,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             int id = item.getItemId();
             if (id == android.R.id.home) {
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
-//                intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-//                intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
                 startActivity(intent);
                 return true;
             }

@@ -1,4 +1,4 @@
-package com.schmoeker;
+package com.schmoeker.analytics;
 
 import android.content.Context;
 import android.os.Bundle;
