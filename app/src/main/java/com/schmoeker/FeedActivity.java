@@ -20,6 +20,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
@@ -53,6 +56,14 @@ public class FeedActivity extends AppCompatActivity
         setContentView(R.layout.activity_feed);
         ButterKnife.bind(this);
         initViews();
+
+
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         Intent intent = getIntent();
         if(intent != null) {
