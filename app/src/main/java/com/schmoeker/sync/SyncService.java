@@ -36,11 +36,12 @@ public class SyncService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        sync();
+        boolean autoupdate = intent.getBooleanExtra(KEYS.AUTOUPDATE, true);
+        sync(autoupdate);
     }
 
 
-    private void sync() {
+    private void sync(final boolean autoUpdate) {
 //        notifySynchronization();
         AsyncTask task = new AsyncTask() {
 
@@ -48,7 +49,7 @@ public class SyncService extends IntentService {
             protected Object doInBackground(Object[] objects) {
 
                 try {
-                    synchronizeFeeds();
+                    synchronizeFeeds(autoUpdate);
 //                    createIntent();
                 } catch (IOException e) {
                     Log.e(this.getClass().getSimpleName(), e.getMessage());
@@ -63,7 +64,7 @@ public class SyncService extends IntentService {
     }
 
 
-    private void synchronizeFeeds() throws IOException, FeedException {
+    private void synchronizeFeeds(boolean autoUpdate) throws IOException, FeedException {
         List<Feed> feeds = AppDatabase.getInstance(this).getFeedDao().getAll();
         for (Feed feed : feeds) {
             Subscription subscription = new Subscription(new URL(feed.getLink()));
@@ -73,7 +74,9 @@ public class SyncService extends IntentService {
                 if (writtenIds[i] > 0) {
                     FeedItem written = feedItems.get(i);
                     written.setId((int) writtenIds[i]);
-                    createNewFeedNotification(feed, written);
+                    if(autoUpdate) {
+                        createNewFeedNotification(feed, written);
+                    }
                 }
             }
         }

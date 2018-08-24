@@ -64,12 +64,7 @@ public class FeedActivity extends AppCompatActivity
         setContentView(R.layout.activity_feed);
         ButterKnife.bind(this);
         initViews();
-
-        MobileAds.initialize(this, admobkey);
-
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        initAds();
 
         Intent intent = getIntent();
         if(intent != null) {
@@ -100,6 +95,13 @@ public class FeedActivity extends AppCompatActivity
                 populateUI(feeds);
             }
         });
+    }
+
+    private void initAds() {
+        MobileAds.initialize(this, admobkey);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void createNotificationChannel() {
@@ -159,6 +161,7 @@ public class FeedActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.action_sync) {
             Intent startServiceIntent = new Intent(getApplicationContext(), SyncService.class);
+            startServiceIntent.putExtra(KEYS.AUTOUPDATE, false);
             getApplicationContext().startService(startServiceIntent);
             return true;
         }
