@@ -14,19 +14,19 @@ import java.util.List;
 
 @Dao
 public interface FeedItemDao {
-    @Query("SELECT * FROM feeditem")
+    @Query("SELECT * FROM feeditem Order BY timestamp DESC")
     List<FeedItem> getAll();
 
     @Query("SELECT * FROM feeditem WHERE id = :feedItemId LIMIT 1")
     FeedItem loadById(int feedItemId);
 
-    @Query("SELECT * FROM feeditem")
+    @Query("SELECT * FROM feeditem Order BY timestamp DESC")
     LiveData<List<FeedItem>> loadLiveData();
 
-    @Query("SELECT * FROM feeditem WHERE read = :read")
+    @Query("SELECT * FROM feeditem WHERE read = :read Order BY timestamp DESC")
     LiveData<List<FeedItem>> loadLiveData(boolean read);
 
-    @Query("SELECT * FROM feeditem WHERE feed_id = :feedId")
+    @Query("SELECT * FROM feeditem WHERE feed_id = :feedId Order BY timestamp DESC")
     LiveData<List<FeedItem>> loadLiveData(int feedId);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

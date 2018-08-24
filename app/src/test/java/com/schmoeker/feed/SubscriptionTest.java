@@ -48,6 +48,6 @@ public class SubscriptionTest {
         URL url = new URL("https://www.computerbase.de/rss/artikel.xml");
         Subscription subscription = new Subscription(url);
         Feed feed = subscription.getFeed();
-        assertEquals("ZEIT ONLINE | Nachrichten, Hintergründe und Debatten", feed.getTitle());
+        assertEquals("ComputerBase Tests", feed.getTitle());
     }
 }

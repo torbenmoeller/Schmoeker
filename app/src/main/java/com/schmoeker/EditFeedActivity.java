@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.ads.MobileAds;
+import com.schmoeker.analytics.AnalyticsUtil;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.Subscription;
@@ -54,10 +55,6 @@ public class EditFeedActivity extends AppCompatActivity {
         initViews();
 
         appDatabase = AppDatabase.getInstance(getApplicationContext());
-
-//        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
-//            mTaskId = savedInstanceState.getInt(INSTANCE_TASK_ID, DEFAULT_TASK_ID);
-//        }
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(KEYS.FEED_ID)) {

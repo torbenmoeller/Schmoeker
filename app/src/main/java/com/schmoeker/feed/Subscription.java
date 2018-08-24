@@ -40,7 +40,7 @@ public class Subscription {
             FeedItem feedItem = new FeedItem();
             feedItem.setFeed_id(feedId);
             feedItem.setUri(entry.getUri() != null ? entry.getUri() : "");
-            feedItem.setDate(entry.getPublishedDate() != null ? entry.getPublishedDate().toString() : "");
+            feedItem.setTimestamp(System.currentTimeMillis());
             feedItem.setAuthors(entry.getAuthor() != null ? entry.getAuthor() : "");
             feedItem.setLink(entry.getLink() != null ? entry.getLink() : "");
             feedItem.setTitle(entry.getTitle() != null ? entry.getTitle() : "");

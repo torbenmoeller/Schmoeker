@@ -1,4 +1,4 @@
-package com.schmoeker;
+package com.schmoeker.management;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

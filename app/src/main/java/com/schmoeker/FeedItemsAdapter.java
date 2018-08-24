@@ -1,19 +1,3 @@
-/*
-* Copyright (C) 2016 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-
 package com.schmoeker;
 
 import android.content.Context;
@@ -36,10 +20,10 @@ import java.util.List;
  * to a RecyclerView to efficiently display data.
  */
 public class FeedItemsAdapter extends BaseAdapter {
-    private Context context; //context
-    private List<FeedItem> items; //data source of the list adapter
+    private Context context;
+    private List<FeedItem> items;
 
-    //public constructor
+
     public FeedItemsAdapter(Context context, List<FeedItem> items) {
         this.context = context;
         this.items = items;
@@ -47,12 +31,12 @@ public class FeedItemsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return items.size(); //returns total of items in the list
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position); //returns list item at the specified position
+        return items.get(position);
     }
 
     @Override
@@ -71,10 +55,6 @@ public class FeedItemsAdapter extends BaseAdapter {
         TextView textViewItemName = (TextView) convertView.findViewById(R.id.text_feed_item_title);
         textViewItemName.setText(String.valueOf(currentItem.getTitle()));
 
-//        TextView textViewItemDescription = (TextView) convertView.findViewById(R.id.text_view_item_description);
-//        textViewItemDescription.setText(currentItem.getTitle());
-//
-//        Button buttonEditFeed = (Button) convertView.findViewById(R.id.edit_feed);
         textViewItemName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,14 +63,6 @@ public class FeedItemsAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-//
-//        Button buttonDeleteFeed = (Button) convertView.findViewById(R.id.delete_feed);
-//        buttonDeleteFeed.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AppDatabase.getInstance(context).getFeedDao().delete(currentItem);
-//            }
-//        });
 
         return convertView;
     }

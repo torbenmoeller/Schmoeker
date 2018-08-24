@@ -1,4 +1,4 @@
-package com.schmoeker;
+package com.schmoeker.sync;
 
 import android.content.Intent;
 
@@ -15,8 +15,6 @@ public class MyJobService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters job) {
-//        Intent service = new Intent(getApplicationContext(), SyncService.class);
-//        getApplicationContext().startService(service);
         return false;
     }
 }

@@ -1,4 +1,4 @@
-package com.schmoeker;
+package com.schmoeker.sync;
 
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -10,15 +10,18 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.rometools.rome.io.FeedException;
+import com.schmoeker.ArticleActivity;
+import com.schmoeker.KEYS;
+import com.schmoeker.R;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 import com.schmoeker.feed.Subscription;
+import com.schmoeker.widget.UpdateWidgetService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Random;
 
 public class SyncService extends IntentService {
 
