@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.schmoeker.db.AppDatabase;
@@ -30,6 +31,7 @@ import com.schmoeker.feed.FeedState;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -45,6 +47,8 @@ public class FeedActivity extends AppCompatActivity
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindString(R.string.admobkey)
+    String admobkey;
 
     List<Feed> feeds;
     FeedState feedState = FeedState.ALL;
@@ -57,9 +61,7 @@ public class FeedActivity extends AppCompatActivity
         ButterKnife.bind(this);
         initViews();
 
-
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(this, admobkey);
 
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
