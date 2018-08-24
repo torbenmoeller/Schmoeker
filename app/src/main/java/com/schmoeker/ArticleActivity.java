@@ -43,6 +43,9 @@ public class ArticleActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initViews();
 
+        Intent startServiceIntent = new Intent(getApplicationContext(), UpdateWidgetService.class);
+        getApplicationContext().startService(startServiceIntent);
+
         appDatabase = AppDatabase.getInstance(getApplicationContext());
 
         Intent intent = getIntent();
