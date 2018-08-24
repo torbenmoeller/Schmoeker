@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             }  else if(preference instanceof SwitchPreference) {
                 SwitchPreference switchPreference = (SwitchPreference) preference;
+                AnalyticsUtil.logDisableNotifications(preference.getContext());
             }else            {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.

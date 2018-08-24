@@ -26,6 +26,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
 
     //Support Libraries
     def support_version = "27.1.1"
@@ -63,7 +64,7 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     //Analytics
-    implementation 'com.google.android.gms:play-services-analytics:16.0.3'
+    implementation 'com.google.android.gms:play-services-analytics:15.0.2'
     //Admob
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
     //Test
@@ -73,3 +74,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+apply plugin: 'com.google.gms.google-services'

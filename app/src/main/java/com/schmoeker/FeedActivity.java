@@ -74,6 +74,7 @@ public class FeedActivity extends AppCompatActivity
                 feedId = intent.getIntExtra(KEYS.FEED_ID, 0);
             }
         }
+        AnalyticsUtil.logViewFeed(getApplicationContext(), feedState, feedId);
         createNotificationChannel();
         SchedulerUtil.scheduleChargingReminder(this);
 

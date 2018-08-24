@@ -81,6 +81,7 @@ public class EditFeedActivity extends AppCompatActivity {
                 feed.setTitle(stringTitle);
                 feed.setLink(stringUrl);
                 appDatabase.getFeedDao().insertAll(feed);
+                AnalyticsUtil.logNewFeed(getApplicationContext(), feed);
             }else{ //Mode.Edit
                 feed.setTitle(stringTitle);
                 feed.setLink(stringUrl);
