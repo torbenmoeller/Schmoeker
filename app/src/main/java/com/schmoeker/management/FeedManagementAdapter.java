@@ -2,6 +2,7 @@ package com.schmoeker.management;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,14 @@ public class FeedManagementAdapter extends BaseAdapter {
         buttonDeleteFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppDatabase.getInstance(context).getFeedDao().delete(currentItem);
+                AsyncTask task =new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] objects) {
+                        AppDatabase.getInstance(context).getFeedDao().delete(currentItem);
+                        return null;
+                    }
+                };
+                task.execute();
             }
         });
 

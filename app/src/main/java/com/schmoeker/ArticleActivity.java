@@ -2,6 +2,7 @@ package com.schmoeker;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -46,13 +47,28 @@ public class ArticleActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(KEYS.FEED_ITEM_ID)) {
-            int feedItemId = intent.getIntExtra(KEYS.FEED_ITEM_ID, 0);
-            feedItem = appDatabase.getFeedItemDao().loadById(feedItemId);
-            articleHead.setText(feedItem.getTitle());
-            articleDescription.loadData("<html><body>"+feedItem.getDescription()+"</body></html>", "text/html", "UTF-8");
+            final int feedItemId = intent.getIntExtra(KEYS.FEED_ITEM_ID, 0);
+            AsyncTask task =new AsyncTask() {
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    feedItem = appDatabase.getFeedItemDao().loadById(feedItemId);
+                    inawqaer(feedItem);
+                    markArticleAsRead();
+                    return null;
+                }
+            };
+            task.execute();
         }
+    }
 
-        markArticleAsRead();
+    //Source: https://stackoverflow.com/questions/34756092/webview-in-asynctask-doinbackground-method
+    private void inawqaer(final FeedItem feedItem){
+        runOnUiThread(new Runnable() {
+            public void run() {
+                articleHead.setText(feedItem.getTitle());
+                articleDescription.loadData("<html><body>"+feedItem.getDescription()+"</body></html>", "text/html", "UTF-8");
+            }
+        });
     }
 
     private void markArticleAsRead() {
