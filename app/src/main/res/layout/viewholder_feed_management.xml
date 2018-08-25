@@ -10,7 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/text_size_feed"
+        android:paddingStart="@dimen/feed_name_padding"
+        android:paddingEnd="@dimen/feed_name_padding"
+        android:textStyle="bold"/>
 
     <ImageButton
         android:id="@+id/edit_feed"

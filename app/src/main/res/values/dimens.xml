@@ -23,4 +23,10 @@
     <dimen name="text_button">0dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="edit_feed_margin">40dp</dimen>
+
+    <dimen name="feed_name_padding">16dp</dimen>
+
+    <dimen name="text_size_title">32sp</dimen>
+    <dimen name="text_size_feed">20sp</dimen>
+    <dimen name="text_size_feeditem">16sp</dimen>
 </resources>

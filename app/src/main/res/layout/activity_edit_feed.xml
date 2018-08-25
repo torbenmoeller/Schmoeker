@@ -15,18 +15,23 @@
         android:columnCount="2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <TextView
+            android:layout_gravity="center_vertical"
             android:text="@string/url" />
         <EditText
             android:id="@+id/edit_url"
-            android:text="@string/url"
+            android:hint="@string/url_hint"
             android:layout_gravity="fill" />
         <TextView
+            android:layout_gravity="center_vertical"
             android:text="@string/title" />
         <EditText
             android:id="@+id/edit_title"
-            android:text="@string/url" />
+            android:hint="@string/title_hint" />
         <Button
             android:id="@+id/save_feed"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/edit_feed_margin"
+            android:layout_columnSpan="2"
             android:text="@string/add_feed" />
     </GridLayout>
 </android.support.design.widget.CoordinatorLayout>
