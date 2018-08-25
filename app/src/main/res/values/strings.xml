@@ -129,6 +129,7 @@
     <string name="mark_all_as_read">Mark all as read</string>
     <string name="url_hint">Paste your feed url here</string>
     <string name="title_hint">Name your feed</string>
+    <string name="open_website">Open Website</string>
 
 
 </resources>
