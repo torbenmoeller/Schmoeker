@@ -50,11 +50,9 @@ public class SyncService extends IntentService {
 
                 try {
                     synchronizeFeeds(autoUpdate);
-//                    createIntent();
                 } catch (IOException | FeedException e) {
                     Log.e(this.getClass().getSimpleName(), e.getMessage());
                 }
-//                populateUI(AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().getAll());
                 return null;
             }
         };

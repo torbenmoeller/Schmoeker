@@ -14,8 +14,8 @@
 
     <string name="all_feeds">All Feeds</string>
     <string name="all_unread">All Unread</string>
-    <string name="url">URL:</string>
-    <string name="title">Title:</string>
+    <string name="url">URL</string>
+    <string name="title">Title</string>
     <string name="update_interval">Update Interval</string>
     <string name="feeds">Feeds</string>
     <string name="manage_feeds">Manage Feeds</string>

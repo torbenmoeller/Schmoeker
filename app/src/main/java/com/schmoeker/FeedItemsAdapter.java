@@ -2,6 +2,7 @@ package com.schmoeker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,11 @@ public class FeedItemsAdapter extends BaseAdapter {
         final FeedItem currentItem = (FeedItem) getItem(position);
 
         TextView textViewItemName = convertView.findViewById(R.id.text_feed_item_title);
+        if(currentItem.isRead()){
+            textViewItemName.setTypeface(null, Typeface.NORMAL);
+        } else {
+            textViewItemName.setTypeface(null, Typeface.BOLD);
+        }
         textViewItemName.setContentDescription(String.valueOf(currentItem.getTitle()));
         textViewItemName.setText(String.valueOf(currentItem.getTitle()));
 
