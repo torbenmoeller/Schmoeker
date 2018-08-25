@@ -28,7 +28,7 @@ public class FeedItemsViewModel extends ViewModel {
         }
     }
 
-    public LiveData<List<FeedItem>> getTask() {
+    public LiveData<List<FeedItem>> getData() {
         return feedItemLiveData;
     }
 }
