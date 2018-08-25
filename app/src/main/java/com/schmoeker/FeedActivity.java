@@ -229,6 +229,8 @@ public class FeedActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(FeedActivity.this, SettingsActivity.class);
             startActivity(intent);
+            drawer.closeDrawer(GravityCompat.START);
+            return false; //If true, then settings keeps being checked through multiple activities
         }
         for (Feed feed: feeds){
             if(itemTitle.equals(feed.getTitle())){

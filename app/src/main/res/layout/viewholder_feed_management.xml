@@ -6,33 +6,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/text_view_item_name"
-        android:layout_width="96dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-
-        android:text="2"/>
-    <TextView
         android:id="@+id/text_view_item_description"
-        android:layout_width="96dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@+id/text_view_item_name"
-        android:text="3" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/edit_feed"
-        android:layout_width="96dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toStartOf="@+id/delete_feed"
-        android:drawableLeft="@android:drawable/ic_menu_edit"
-        android:text="@string/edit_feed" />
+        android:src="@android:drawable/ic_menu_edit"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/edit_feed" />
 
-    <Button
+    <ImageButton
         android:id="@+id/delete_feed"
-        android:layout_width="96dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:drawableLeft="@android:drawable/ic_menu_delete"
-        android:text="@string/delete_feed" />
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/ic_menu_delete"
+        android:contentDescription="@string/delete_feed" />
 
 </RelativeLayout>
