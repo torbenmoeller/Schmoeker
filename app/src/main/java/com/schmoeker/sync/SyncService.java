@@ -51,9 +51,7 @@ public class SyncService extends IntentService {
                 try {
                     synchronizeFeeds(autoUpdate);
 //                    createIntent();
-                } catch (IOException e) {
-                    Log.e(this.getClass().getSimpleName(), e.getMessage());
-                } catch (FeedException e) {
+                } catch (IOException | FeedException e) {
                     Log.e(this.getClass().getSimpleName(), e.getMessage());
                 }
 //                populateUI(AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().getAll());
@@ -95,11 +93,13 @@ public class SyncService extends IntentService {
         if(preferences.getBoolean("notifications_on", true)) {
             Intent intent = new Intent(this, ArticleActivity.class);
             intent.putExtra(KEYS.FEED_ITEM_ID, feedItem.getId());
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //Source: https://github.com/wix/react-native-notifications/issues/66#issuecomment-303972588
+            int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), uniqueInt, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, KEYS.CHANNEL_ID)
-                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark) //ToDo
+                    .setSmallIcon(R.drawable.ic_rss_feed_black_24dp)
                     .setContentTitle(feed.getTitle())
                     .setContentText(feedItem.getTitle())
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)

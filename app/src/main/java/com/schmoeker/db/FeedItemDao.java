@@ -7,7 +7,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 
 import java.util.List;

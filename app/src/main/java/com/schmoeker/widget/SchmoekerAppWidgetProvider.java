@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.schmoeker.ArticleActivity;
-import com.schmoeker.FeedActivity;
-import com.schmoeker.KEYS;
 import com.schmoeker.R;
 import com.schmoeker.feed.FeedItem;
 

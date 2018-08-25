@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.schmoeker.db.AppDatabase;
-import com.schmoeker.feed.Feed;
 import com.schmoeker.feed.FeedItem;
 import com.schmoeker.feed.FeedState;
 

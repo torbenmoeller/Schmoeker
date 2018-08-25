@@ -51,6 +51,7 @@ public class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         row.setOnClickFillInIntent(R.id.item, fillInIntent);
 
         row.setTextViewText(R.id.item, feedItems.get(position).getTitle());
+        row.setContentDescription(R.id.item, feedItems.get(position).getTitle());
         return row;
     }
 

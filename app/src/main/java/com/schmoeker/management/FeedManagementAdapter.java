@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -51,11 +50,11 @@ public class FeedManagementAdapter extends BaseAdapter {
         }
         final Feed currentItem = (Feed) getItem(position);
 
-        TextView textViewItemDescription = (TextView) convertView.findViewById(R.id.text_view_item_description);
+        TextView textViewItemDescription = convertView.findViewById(R.id.text_view_item_description);
         textViewItemDescription.setText(currentItem.getTitle());
         textViewItemDescription.setContentDescription(currentItem.getTitle());
 
-        ImageButton buttonEditFeed = (ImageButton) convertView.findViewById(R.id.edit_feed);
+        ImageButton buttonEditFeed = convertView.findViewById(R.id.edit_feed);
         buttonEditFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +64,7 @@ public class FeedManagementAdapter extends BaseAdapter {
             }
         });
 
-        ImageButton buttonDeleteFeed = (ImageButton) convertView.findViewById(R.id.delete_feed);
+        ImageButton buttonDeleteFeed = convertView.findViewById(R.id.delete_feed);
         buttonDeleteFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

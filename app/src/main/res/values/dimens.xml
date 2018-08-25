@@ -12,7 +12,7 @@
     <dimen name="standard_bottom_sheet">8dp</dimen>
     <dimen name="standard_side_sheet">8dp</dimen>
     <dimen name="bottom_navigation_bar">8dp</dimen>
-    <dimen name="bttom_app_bar">8dp</dimen>
+    <dimen name="bottom_app_bar">8dp</dimen>
     <dimen name="menus_and_sub_menus">8dp</dimen>
     <dimen name="card">8dp</dimen>
     <dimen name="contained_button">8dp</dimen>

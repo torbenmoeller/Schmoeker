@@ -1,8 +1,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"  >
     <SwitchPreference
         android:defaultValue="true"
-        android:key="asdf"
-        android:title="asdf"/>
+        android:key=""
+        android:title=""/>
     <SwitchPreference
         android:defaultValue="true"
         android:key="notifications_on"

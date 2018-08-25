@@ -22,10 +22,6 @@ public interface FeedDao {
 
     @Query("SELECT * FROM feed WHERE id = :feedId LIMIT 1")
     Feed loadById(int feedId);
-
-    @Query("SELECT * FROM feed WHERE id = :feedId LIMIT 1")
-    LiveData<Feed> loadLiveDataById(int feedId);
-
     @Query("SELECT * FROM feed WHERE title LIKE :title LIMIT 1")
     Feed findByTitle(String title);
 
