@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.schmoeker.EditFeedActivity;
@@ -50,13 +51,11 @@ public class FeedManagementAdapter extends BaseAdapter {
         }
         final Feed currentItem = (Feed) getItem(position);
 
-        TextView textViewItemName = (TextView) convertView.findViewById(R.id.text_view_item_name);
-        textViewItemName.setText(String.valueOf(currentItem.getId()));
-
         TextView textViewItemDescription = (TextView) convertView.findViewById(R.id.text_view_item_description);
         textViewItemDescription.setText(currentItem.getTitle());
+        textViewItemDescription.setContentDescription(currentItem.getTitle());
 
-        Button buttonEditFeed = (Button) convertView.findViewById(R.id.edit_feed);
+        ImageButton buttonEditFeed = (ImageButton) convertView.findViewById(R.id.edit_feed);
         buttonEditFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +65,7 @@ public class FeedManagementAdapter extends BaseAdapter {
             }
         });
 
-        Button buttonDeleteFeed = (Button) convertView.findViewById(R.id.delete_feed);
+        ImageButton buttonDeleteFeed = (ImageButton) convertView.findViewById(R.id.delete_feed);
         buttonDeleteFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
