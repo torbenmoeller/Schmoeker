@@ -65,6 +65,7 @@ public class ArticleActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             public void run() {
                 articleHead.setText(feedItem.getTitle());
+                articleHead.setContentDescription(feedItem.getTitle());
                 articleDescription.loadData("<html><body>"+feedItem.getDescription()+"</body></html>", "text/html", "UTF-8");
             }
         });
