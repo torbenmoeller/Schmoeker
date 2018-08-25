@@ -31,7 +31,7 @@ public interface FeedItemDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long[] insertAll(List<FeedItem> feedItems);
 
-    @Query("UPDATE feeditem SET read = 'true' WHERE id =:feedItemId")
+    @Query("UPDATE feeditem SET read = 1 WHERE id =:feedItemId")
     void markAsRead(int feedItemId);
 
     @Delete

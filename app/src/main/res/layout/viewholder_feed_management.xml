@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
     <TextView
         android:id="@+id/text_view_item_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
         android:textSize="@dimen/text_size_feed"
-        android:paddingStart="@dimen/feed_name_padding"
-        android:paddingEnd="@dimen/feed_name_padding"
+        android:layout_gravity="start"
+        android:gravity="center_vertical"
+        android:layout_weight="4"
+        android:layout_marginStart="@dimen/feed_name_padding"
+        android:layout_marginEnd="@dimen/feed_name_padding"
+        android:nextFocusRight="@+id/edit_feed"
         android:textStyle="bold"/>
 
     <ImageButton
         android:id="@+id/edit_feed"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toStartOf="@+id/delete_feed"
         android:src="@android:drawable/ic_menu_edit"
+        android:layout_gravity="end"
+        android:layout_weight="1"
         android:gravity="center"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
+        android:nextFocusRight="@+id/delete_feed"
         android:contentDescription="@string/edit_feed" />
 
     <ImageButton
         android:id="@+id/delete_feed"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
         android:gravity="center"
-        android:scaleType="centerInside"
+        android:layout_weight="1"
+        android:layout_gravity="end"
+        android:scaleType="centerCrop"
         android:src="@android:drawable/ic_menu_delete"
         android:contentDescription="@string/delete_feed" />
 
-</RelativeLayout>
+</LinearLayout>

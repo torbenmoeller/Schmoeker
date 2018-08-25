@@ -24,9 +24,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.google.firebase:firebase-core:15.0.2'
 
     //Support Libraries
     def support_version = "27.1.1"
@@ -61,12 +58,15 @@ dependencies {
     //Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
-    //Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    //Firebase
+    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
     //Analytics
     implementation 'com.google.android.gms:play-services-analytics:15.0.2'
     //Admob
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    //Json
+    implementation 'com.google.code.gson:gson:2.8.5'
     //Test
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.21.0'
