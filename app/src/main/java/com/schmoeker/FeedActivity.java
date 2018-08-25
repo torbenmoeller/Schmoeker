@@ -2,6 +2,7 @@ package com.schmoeker;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -57,6 +58,8 @@ public class FeedActivity extends AppCompatActivity
     List<Feed> feeds;
     FeedState feedState = FeedState.ALL;
     int feedId = 0;
+    FeedItemsAdapter adapter = null;
+    LiveData<List<FeedItem>> feedItemLiveData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +92,8 @@ public class FeedActivity extends AppCompatActivity
 
         FeedItemsViewModelFactory factory = new FeedItemsViewModelFactory(AppDatabase.getInstance(this),feedState, feedId);
         final FeedItemsViewModel viewModel = ViewModelProviders.of(this, factory).get(FeedItemsViewModel.class);
-        viewModel.getTask().observe(this, new Observer<List<FeedItem>>() {
+        feedItemLiveData = viewModel.getData();
+        viewModel.getData().observe(this, new Observer<List<FeedItem>>() {
             @Override
             public void onChanged(@Nullable List<FeedItem> feeds) {
                 populateUI(feeds);
@@ -137,7 +141,7 @@ public class FeedActivity extends AppCompatActivity
     }
 
     public void populateUI(@Nullable List<FeedItem> feeds) {
-        FeedItemsAdapter adapter = new FeedItemsAdapter(this, feeds);
+        adapter = new FeedItemsAdapter(this, feeds);
         listView.setAdapter(adapter);
     }
 
@@ -163,6 +167,20 @@ public class FeedActivity extends AppCompatActivity
             Intent startServiceIntent = new Intent(getApplicationContext(), SyncService.class);
             startServiceIntent.putExtra(KEYS.AUTOUPDATE, false);
             getApplicationContext().startService(startServiceIntent);
+            return true;
+        }else if (id == R.id.action_all_read) {
+
+            final AsyncTask task = new AsyncTask() {
+
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    for(FeedItem feedItem : feedItemLiveData.getValue()){
+                        AppDatabase.getInstance(getApplicationContext()).getFeedItemDao().markAsRead(feedItem.getId());
+                    }
+                    return null;
+                }
+            };
+            task.execute();
             return true;
         }
         return super.onOptionsItemSelected(item);
