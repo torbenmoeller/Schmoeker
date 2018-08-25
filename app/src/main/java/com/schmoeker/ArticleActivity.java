@@ -44,7 +44,6 @@ public class ArticleActivity extends AppCompatActivity {
         getApplicationContext().startService(startServiceIntent);
 
         appDatabase = AppDatabase.getInstance(getApplicationContext());
-
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(KEYS.FEED_ITEM_ID)) {
             final int feedItemId = intent.getIntExtra(KEYS.FEED_ITEM_ID, 0);
@@ -52,7 +51,7 @@ public class ArticleActivity extends AppCompatActivity {
                 @Override
                 protected Object doInBackground(Object[] objects) {
                     feedItem = appDatabase.getFeedItemDao().loadById(feedItemId);
-                    inawqaer(feedItem);
+                    setContent(feedItem);
                     markArticleAsRead();
                     return null;
                 }
@@ -62,7 +61,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     //Source: https://stackoverflow.com/questions/34756092/webview-in-asynctask-doinbackground-method
-    private void inawqaer(final FeedItem feedItem){
+    private void setContent(final FeedItem feedItem){
         runOnUiThread(new Runnable() {
             public void run() {
                 articleHead.setText(feedItem.getTitle());

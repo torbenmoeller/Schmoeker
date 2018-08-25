@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/add_feed"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_add_circle_white_24dp"
         android:orderInCategory="100"
         android:title="@string/add"
         app:showAsAction="ifRoom" />

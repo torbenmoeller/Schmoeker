@@ -29,6 +29,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
+                if(index < 0){
+                    index = 0;
+                }
                 String vals = listPreference.getEntries()[index].toString();
                 Integer val = Integer.valueOf((String) value);
                 preference.setSummary(index >= 0 ? vals.toString() : null);

@@ -6,10 +6,10 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_article">ArticleActivity</string>
-    <string name="title_activity_feed_management">FeedManagementActivity</string>
-    <string name="title_activity_edit_feed">EditFeedActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_article">Article</string>
+    <string name="title_activity_feed_management">Manage Feeds</string>
+    <string name="title_activity_edit_feed">Edit Feed</string>
+    <string name="title_activity_settings">Settings</string>
 
 
     <string name="all_feeds">All Feeds</string>
@@ -24,6 +24,7 @@
     <string name="add_feed">Add New Feed</string>
     <string name="save">Save</string>
     <string name="edit_feed">Edit</string>
+    <string name="edit_feed_title">Edit Feed</string>
     <string name="delete_feed">Delete</string>
     <string name="sync">Synchronize</string>
     <string name="asdf">asdf</string>
