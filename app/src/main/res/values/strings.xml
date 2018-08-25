@@ -76,5 +76,6 @@
     <string name="title_hint">Name your feed</string>
     <string name="open_website">Open Website</string>
 
-
+    <!--Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713-->
+    <string name="admobkey">ca-app-pub-3940256099942544~3347511713</string> <!--Example Key-->
 </resources>

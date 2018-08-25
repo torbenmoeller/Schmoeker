@@ -11,5 +11,3 @@
 .idea/
 test/test.feed
 test.feed
-app/src/debug/res/values/strings.xml
-app/google-services.json
