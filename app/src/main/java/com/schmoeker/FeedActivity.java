@@ -54,6 +54,10 @@ public class FeedActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindString(R.string.admobkey)
     String admobkey;
+    @BindString(R.string.all_feeds)
+    String allFeeds;
+    @BindString(R.string.all_unread)
+    String allUnread;
 
     List<Feed> feeds;
     FeedState feedState = FeedState.ALL;
@@ -73,6 +77,17 @@ public class FeedActivity extends AppCompatActivity
         if(intent != null) {
             if (intent.hasExtra(KEYS.FEED_STATE)) {
                 feedState = (FeedState) intent.getSerializableExtra(KEYS.FEED_STATE);
+                switch(feedState){
+                    case ALL:
+                        getSupportActionBar().setTitle(allFeeds);
+                        break;
+                    case UNREAD:
+                        getSupportActionBar().setTitle(allUnread);
+                        break;
+                    case FEED:
+                        //do nothing set title later
+                        break;
+                }
             }
             if (intent.hasExtra(KEYS.FEED_ID)) {
                 feedId = intent.getIntExtra(KEYS.FEED_ID, 0);
@@ -89,6 +104,7 @@ public class FeedActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigation();
+
 
         FeedItemsViewModelFactory factory = new FeedItemsViewModelFactory(AppDatabase.getInstance(this),feedState, feedId);
         final FeedItemsViewModel viewModel = ViewModelProviders.of(this, factory).get(FeedItemsViewModel.class);
@@ -130,10 +146,17 @@ public class FeedActivity extends AppCompatActivity
             protected Object doInBackground(Object[] objects) {
 
                 feeds = AppDatabase.getInstance(getApplicationContext()).getFeedDao().getAll();
-                for (int i = 0; i < feeds.size(); i++){
-                    Feed feed = feeds.get(i);
-                    navigationView.getMenu().add(R.id.menu_feeds, feed.getId(), 215 + i, feed.getTitle());
-                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        for (int i = 0; i < feeds.size(); i++){
+                            Feed feed = feeds.get(i);
+                            if(feed.getId() == feedId){
+                                getSupportActionBar().setTitle(feed.getTitle());
+                            }
+                            navigationView.getMenu().add(R.id.menu_feeds, feed.getId(), 215 + i, feed.getTitle());
+                        }
+                    }
+                });
                 return null;
             }
         };

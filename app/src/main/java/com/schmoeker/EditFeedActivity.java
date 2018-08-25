@@ -73,6 +73,8 @@ public class EditFeedActivity extends AppCompatActivity {
                 }
             };
             task.execute();
+        } else{
+            getSupportActionBar().setTitle(getResources().getString(R.string.add_feed));
         }
     }
 
