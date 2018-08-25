@@ -1,29 +1,22 @@
 package com.schmoeker;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.ads.MobileAds;
 import com.schmoeker.analytics.AnalyticsUtil;
 import com.schmoeker.db.AppDatabase;
 import com.schmoeker.feed.Feed;
-import com.schmoeker.feed.Subscription;
-
-import java.net.URI;
-import java.net.URL;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -56,10 +49,30 @@ public class EditFeedActivity extends AppCompatActivity {
         initViews();
 
         appDatabase = AppDatabase.getInstance(getApplicationContext());
+        //Source: https://stackoverflow.com/questions/2763022/android-how-can-i-validate-edittext-input/11838715#11838715
+        editUrl.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (URLUtil.isValidUrl(editUrl.getText().toString())) {
+                    enableSaveButton(true);
+                } else {
+                    enableSaveButton(false);
+                }
+            }
+        });
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(KEYS.FEED_ID)) {
             final int feedId = intent.getIntExtra(KEYS.FEED_ID, 0);
+            enableSaveButton(true);
             AsyncTask task = new AsyncTask() {
                 @Override
                 protected Object doInBackground(Object[] objects) {
@@ -74,8 +87,25 @@ public class EditFeedActivity extends AppCompatActivity {
             };
             task.execute();
         } else{
+            enableSaveButton(false);
             getSupportActionBar().setTitle(getResources().getString(R.string.add_feed));
         }
+    }
+
+    //Source: https://stackoverflow.com/questions/22803476/animators-may-only-be-run-on-looper-threads-on-sherlock-action-bar
+    private void enableSaveButton(final boolean enable){
+        runOnUiThread(new Runnable() {
+
+            public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveButton.setEnabled(enable);
+                    }
+                }, 50);
+
+            }
+        });
     }
 
     @OnClick(R.id.save_feed)
@@ -108,7 +138,6 @@ public class EditFeedActivity extends AppCompatActivity {
         }
 
     }
-
     enum Mode {
         EDIT,
         ADD

@@ -20,18 +20,20 @@
         <EditText
             android:id="@+id/edit_url"
             android:hint="@string/url_hint"
-            android:layout_gravity="fill" />
+            android:layout_gravity="fill"
+            android:inputType="textUri" />
         <TextView
             android:layout_gravity="center_vertical"
             android:text="@string/title" />
         <EditText
             android:id="@+id/edit_title"
-            android:hint="@string/title_hint" />
+            android:hint="@string/title_hint"
+            android:inputType="text" />
         <Button
             android:id="@+id/save_feed"
             android:layout_width="match_parent"
             android:layout_margin="@dimen/edit_feed_margin"
             android:layout_columnSpan="2"
-            android:text="@string/add_feed" />
+            android:text="@string/add_feed"/>
     </GridLayout>
 </android.support.design.widget.CoordinatorLayout>

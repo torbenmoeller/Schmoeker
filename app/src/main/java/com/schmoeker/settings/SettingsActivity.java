@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
                 String vals = listPreference.getEntries()[index].toString();
                 Integer val = Integer.valueOf((String) value);
-                preference.setSummary(index >= 0 ? vals.toString() : null);
+                preference.setSummary(vals);
                 SchedulerUtil.reschedule(preference.getContext(), val);
 
             }  else if(preference instanceof SwitchPreference) {
@@ -86,9 +86,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     //Source: https://gldraphael.com/blog/adding-a-toolbar-to-preference-activity/
     private void initViews() {
-        ViewGroup content = (ViewGroup) findViewById(android.R.id.content);
+        ViewGroup content = findViewById(android.R.id.content);
         getLayoutInflater().inflate(R.layout.toolbar, content);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);

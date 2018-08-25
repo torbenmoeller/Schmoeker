@@ -49,7 +49,7 @@ public class FeedItemsAdapter extends BaseAdapter {
         }
         final FeedItem currentItem = (FeedItem) getItem(position);
 
-        TextView textViewItemName = (TextView) convertView.findViewById(R.id.text_feed_item_title);
+        TextView textViewItemName = convertView.findViewById(R.id.text_feed_item_title);
         textViewItemName.setContentDescription(String.valueOf(currentItem.getTitle()));
         textViewItemName.setText(String.valueOf(currentItem.getTitle()));
 
