@@ -30,6 +30,10 @@ android {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
     }
     buildToolsVersion '28.0.2'
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
