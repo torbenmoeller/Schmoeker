@@ -1,4 +1,10 @@
-# Schmoeker
+# Schmoeker 
+
+Schmöker is an app to subscribe to your favorite web feeds. It supports the most common web
+formats like RSS and Atom. It lets you managed your web feeds easily.
+
+[![Build Status](https://travis-ci.org/torbenmoeller/Schmoeker.svg?branch=master)](https://travis-ci.org/torbenmoeller/Schmoeker)
+
 in order to build the project, you need 
 1. a google.json from Firebase
 2. and a string named admobkey placed in the resources <string name="admobkey">Key here!</string> 
